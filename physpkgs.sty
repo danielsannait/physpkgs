@@ -1,0 +1,211 @@
+% Caricare questo file nella stessa cartella del progetto e aggiungere
+% \usepackage{physpkgs}
+
+\ProvidesPackage{physpkgs}
+
+
+%% LAYOUT ---------------------------------------------
+
+\usepackage[document]{ragged2e} % allineamento con sillabazione corretta
+\AtBeginDocument{\justifying} % giustifica il testo
+
+% Rimuovere indentazione paragrafo
+%\setlength{\parindent}{0pt} % rimuove l'indentazione ad inizio paragrafo
+%\setlength{\JustifyingParindent}{0pt} % come sopra, ma solo per \justifying
+
+\usepackage{geometry}
+
+% formato sensato per A4 con margini 2cm
+% da rimuovere se in combinazione con qualcosa di specifico (eg. sapthesis)
+\geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+}
+
+\usepackage[titletoc,page]{appendix} % appendice
+
+\usepackage{abstract} % abstract sensato (solo per le documentclass report e article)
+%------------------------------------------------------
+
+
+%% MATEMATICA, FISICA ---------------------------------
+
+%% Essenziali
+\usepackage{amsmath,amssymb,mathrsfs} % simboli e ambienti matematica (in particolare \mathscr)
+
+\usepackage{physics} % miscelanea per equazioni di fisica, matrici, parentesi, ket, etc.
+
+
+%% Teoremi
+\usepackage{amsthm} % ambienti teorema, proposizione, definizioni, etc.
+
+%\usepackage{ntheorem} % ambienti più flessibili (in conflutto con wrapfigure)
+
+
+%% Unità di misura
+\usepackage{siunitx} % unità di misura
+
+% Risolve il conflitto con physics
+% (se commentato \qty è quello di physics, basta usare \SI al posto di quello di siunitx)
+%\AtBeginDocument{\RenewCommandCopy\qty\SI} % rimuove \qty per entrambi
+\ExplSyntaxOn
+\msg_redirect_name:nnn { siunitx } { physics-pkg } { none }
+\ExplSyntaxOff
+
+
+%% Estetica
+\usepackage{xfrac} % \sfrac, frazioni in linea
+
+\usepackage{bm} % \bm{\alpha} grassetto per lettere greche (per vettori usare \vb*), in generale grassetto fatto bene
+
+\usepackage{cancel} % eq.ni sbarrate
+
+% scambia \varphi con \phi
+\expandafter\mathchardef\expandafter\varphi\number\expandafter\phi\expandafter\relax
+\expandafter\mathchardef\expandafter\phi\number\varphi
+
+% radice quadrata con chiusura alla fine
+\let\oldsqrt\sqrt % it renames \sqrt as \oldsqrt
+\def\sqrt{\mathpalette\DHLhksqrt} % it defines the new \sqrt in terms of the old one
+\def\DHLhksqrt#1#2{%
+\setbox0=\hbox{$#1\oldsqrt{#2\,}$}\dimen0=\ht0
+\advance\dimen0-0.2\ht0
+\setbox2=\hbox{\vrule height\ht0 depth -\dimen0}%
+{\box0\lower0.4pt\box2}}
+%------------------------------------------------------
+
+
+
+%% TESTO, RIFERIMENTI----------------------------------
+
+\usepackage{cmap} % testo copiabile in output pdf
+
+
+%% Font
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+
+%% Lingue
+\usepackage[italian]{babel} % testo in italiano
+
+
+%% Riferimenti
+\usepackage{hyperref} % citazioni con hyperlink non solo di \label, ma di testo, links...
+% da configurare con i colori scelti
+\hypersetup{
+    colorlinks=true,
+    %linkcolor=blue,
+    %urlcolor=blue,
+    %citecolor=gray,
+    }
+ 
+\usepackage[italian,nameinlink]{cleveref} % citazioni perfette con prefissi in italiano (\cref{}). nameinlink rende tutto `fig.1' un link
+
+\usepackage{makeidx} % indice analitico e citazioni ad argomenti nel testo con \index{macroargomento}, \index{macroarg!casoparticolare}
+
+
+%% Colori
+\usepackage{xcolor} % testo a colori
+\definecolor{sapred}{RGB}{130,36,51} % rosso sapienza
+
+
+%% Spaziature
+\usepackage{xspace} % \xspace gestisce gli spazi alla fine dei \newcommand{}
+
+
+%% Liste
+\usepackage{enumitem} % enumerate e altre liste personalizzate
+
+% liste puntate strette
+\setlist[itemize]{topsep=.1em, itemsep=.1em,parsep=0em, partopsep=0em} % liste puntate (itemize) strette
+
+\usepackage[ampersand]{easylist} % liste con tante indentazioni (usa & al posto di \item)
+
+%------------------------------------------------------
+
+
+%% FLOAT-----------------------------------------------
+
+\usepackage{float} % migliora i float, aggiunge [H] come opzione di posizione (H funziona male con twocolumn)
+%\floatplacement{figure}{H} % imposta tutti i float con [H]
+
+%% Immagini
+\usepackage{graphicx} % importare immagini
+
+
+%% Tabelle
+\usepackage{booktabs} % tabelle avanzate
+
+\usepackage{multirow} % celle a righe multiple
+\usepackage{multicol} % celle a colonne multiple
+
+
+%% Estetica
+\usepackage[font=footnotesize,labelfont=bf]{caption} % caption piccole con titolo grassetto
+
+\usepackage{wrapfig} % testo del documento intorno ai float
+
+
+%% Floatbarriers
+\usepackage{placeins} % \FloatBarrier
+
+% automaticamente mette un \FloatBarrier tra sections
+%\usepackage[section]{placeins} 
+
+% chiamare \alwaysFloatBarrier per mettere \FloatBarrier ad ogni nuova (sotto(sotto))sezione
+%\usepackage{etoolbox} 
+%\newcommand\alwaysFloatBarrier{%
+%   \pretocmd{\section}{\FloatBarrier}{}{}%
+%   \pretocmd{\subsection}{\FloatBarrier}{}{}%
+%   \pretocmd{\subsubsection}{\FloatBarrier}{}{}%
+%}
+
+
+%% Grafiche vettoriali
+%\usepackage{circuitikz} % circuiti
+%\usepackage{tikz} % grafiche vettoriali
+
+
+%% Listati di programmazione
+\usepackage{listings}
+
+% Stile esempio per python
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{mystyle}{ % stile predefinito
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    %numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{
+    style=mystyle,
+    language=Python, % preimpostato per python
+    inputencoding=latin1, % supporta caratteri accentati
+    extendedchars=true,
+    literate={à}{{\`a}}1 {ò}{{\`o}}1 {è}{{\`e}}1 {ù}{{\`u}}1 % accenti aggiunti
+    }
+%------------------------------------------------------    
+
+
+
+%% BIBLIOGRAFIA----------------------------------------
+
+%\usepackage{biblatex,csquotes}
