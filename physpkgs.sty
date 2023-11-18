@@ -19,9 +19,10 @@
 % da rimuovere se in combinazione con qualcosa di specifico (eg. sapthesis)
 \geometry{
  a4paper,
- total={170mm,257mm},
- left=20mm,
  top=20mm,
+ bottom=20mm,
+ left=30mm,
+ right=30mm
 }
 
 \RequirePackage[titletoc,page]{appendix} % appendice
@@ -177,16 +178,17 @@
 %% Floatbarriers
 \RequirePackage{placeins} % \FloatBarrier
 
-% automaticamente mette un \FloatBarrier tra sections
+% automaticamente mette un \FloatBarrier tra section
 %\RequirePackage[section]{placeins} 
 
-% chiamare \alwaysFloatBarrier per mettere \FloatBarrier ad ogni nuova (sotto(sotto))sezione
+% \FloatBarrier ad ogni nuova (sub(sub))section
 %\RequirePackage{etoolbox} 
 %\newcommand\alwaysFloatBarrier{%
 %   \pretocmd{\section}{\FloatBarrier}{}{}%
 %   \pretocmd{\subsection}{\FloatBarrier}{}{}%
 %   \pretocmd{\subsubsection}{\FloatBarrier}{}{}%
 %}
+%\AtBeginDocument{alwaysFloatBarrier}
 
 
 %% Grafiche vettoriali
