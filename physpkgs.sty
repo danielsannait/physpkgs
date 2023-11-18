@@ -6,14 +6,14 @@
 
 %% LAYOUT ---------------------------------------------
 
-\usepackage[document]{ragged2e} % allineamento con sillabazione corretta
+\RequirePackage[document]{ragged2e} % allineamento con sillabazione corretta
 \AtBeginDocument{\justifying} % giustifica il testo
 
 % Rimuovere indentazione paragrafo
 %\setlength{\parindent}{0pt} % rimuove l'indentazione ad inizio paragrafo
 %\setlength{\JustifyingParindent}{0pt} % come sopra, ma solo per \justifying
 
-\usepackage{geometry}
+\RequirePackage{geometry}
 
 % formato sensato per A4 con margini 2cm
 % da rimuovere se in combinazione con qualcosa di specifico (eg. sapthesis)
@@ -24,24 +24,24 @@
  top=20mm,
 }
 
-\usepackage[titletoc,page]{appendix} % appendice
+\RequirePackage[titletoc,page]{appendix} % appendice
 
-\usepackage{abstract} % abstract sensato (solo per le documentclass report e article)
+\RequirePackage{abstract} % abstract sensato (solo per le documentclass report e article)
 %------------------------------------------------------
 
 
 %% MATEMATICA, FISICA ---------------------------------
 
 %% Essenziali
-\usepackage{amsmath,amssymb,mathrsfs} % simboli e ambienti matematica (in particolare \mathscr)
+\RequirePackage{amsmath,amssymb,mathrsfs} % simboli e ambienti matematica (in particolare \mathscr)
 
-\usepackage{physics} % miscelanea per equazioni di fisica, matrici, parentesi, ket, etc.
+\RequirePackage{physics} % miscelanea per equazioni di fisica, matrici, parentesi, ket, etc.
 
 
 %% Teoremi
-%\usepackage{amsthm} % ambienti teorema, proposizione, definizioni, etc. (in conflitto con ntheorem) 
+%\RequirePackage{amsthm} % ambienti teorema, proposizione, definizioni, etc. (in conflitto con ntheorem) 
 
-\usepackage[amsthm,amsmath,thmmarks,hyperref]{ntheorem} % ambienti più flessibili (in conflutto con wrapfigure e amsthm). L'argomento amsthm importa gli stili di amsthm
+\RequirePackage[amsthm,amsmath,thmmarks,hyperref]{ntheorem} % ambienti più flessibili (in conflutto con wrapfigure e amsthm). L'argomento amsthm importa gli stili di amsthm
 
 % ambienti teorema tradotti (con numerazione dipendente dalla sezione locale se c'è [section])
 \theoremstyle{plain}
@@ -73,11 +73,11 @@
 
 
 %% Estetica
-\usepackage{xfrac} % \sfrac, frazioni in linea
+\RequirePackage{xfrac} % \sfrac, frazioni in linea
 
-\usepackage{bm} % \bm{\alpha} grassetto per lettere greche (per vettori usare \vb*), in generale grassetto fatto bene
+\RequirePackage{bm} % \bm{\alpha} grassetto per lettere greche (per vettori usare \vb*), in generale grassetto fatto bene
 
-\usepackage{cancel} % eq.ni sbarrate
+\RequirePackage{cancel} % eq.ni sbarrate
 
 \newcommand{\lqq}[1]{,\quad \text{#1}}
 
@@ -98,20 +98,20 @@
 
 %% TESTO, RIFERIMENTI----------------------------------
 
-\usepackage{cmap} % testo copiabile in output pdf
+\RequirePackage{cmap} % testo copiabile in output pdf
 
 
 %% Font
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
 
 
 %% Lingue
-\usepackage[italian]{babel} % testo in italiano
+\RequirePackage[italian]{babel} % testo in italiano
 
 
 %% Riferimenti
-\usepackage{hyperref} % citazioni con hyperlink non solo di \label, ma di testo, links...
+\RequirePackage{hyperref} % citazioni con hyperlink non solo di \label, ma di testo, links...
 % da configurare con i colori scelti
 \hypersetup{
     colorlinks=true,
@@ -120,68 +120,68 @@
     %citecolor=gray,
     }
  
-\usepackage[italian,nameinlink]{cleveref} % citazioni perfette con prefissi in italiano (\cref{}). nameinlink rende tutto `fig.1' un link
+\RequirePackage[italian,nameinlink]{cleveref} % citazioni perfette con prefissi in italiano (\cref{}). nameinlink rende tutto `fig.1' un link
 
-\usepackage{makeidx} % indice analitico e citazioni ad argomenti nel testo con \index{macroargomento}, \index{macroarg!casoparticolare}
+\RequirePackage{makeidx} % indice analitico e citazioni ad argomenti nel testo con \index{macroargomento}, \index{macroarg!casoparticolare}
 
 
 %% Note a piè pagina
-\usepackage[multiple]{fnpct} % (\footnote prima della punteggiatura)
+\RequirePackage[multiple]{fnpct} % (\footnote prima della punteggiatura)
 
-\usepackage{footmisc}
+\RequirePackage{footmisc}
 \renewcommand\footnotelayout\justifying % giustifica le footnote
 
 
 %% Colori
-\usepackage{xcolor} % testo a colori
+\RequirePackage{xcolor} % testo a colori
 \definecolor{sapred}{RGB}{130,36,51} % rosso sapienza
 
 
 %% Spaziature
-\usepackage{xspace} % \xspace gestisce gli spazi alla fine dei \newcommand{}
+\RequirePackage{xspace} % \xspace gestisce gli spazi alla fine dei \newcommand{}
 
 
 %% Liste
-\usepackage{enumitem} % enumerate e altre liste personalizzate
+\RequirePackage{enumitem} % enumerate e altre liste personalizzate
 
 % liste puntate strette
 \setlist[itemize]{topsep=.1em, itemsep=.1em,parsep=0em, partopsep=0em} % liste puntate (itemize) strette
 
-\usepackage[ampersand]{easylist} % liste con tante indentazioni (usa & al posto di \item)
+\RequirePackage[ampersand]{easylist} % liste con tante indentazioni (usa & al posto di \item)
 %------------------------------------------------------
 
 
 %% FLOAT-----------------------------------------------
 
-\usepackage{float} % migliora i float, aggiunge [H] come opzione di posizione (H funziona male con twocolumn)
+\RequirePackage{float} % migliora i float, aggiunge [H] come opzione di posizione (H funziona male con twocolumn)
 %\floatplacement{figure}{H} % imposta tutti i float con [H]
 
 
 %% Immagini
-\usepackage{graphicx} % importare immagini
+\RequirePackage{graphicx} % importare immagini
 
 
 %% Tabelle
-\usepackage{booktabs} % tabelle avanzate
+\RequirePackage{booktabs} % tabelle avanzate
 
-\usepackage{multirow} % celle a righe multiple
-\usepackage{multicol} % celle a colonne multiple
+\RequirePackage{multirow} % celle a righe multiple
+\RequirePackage{multicol} % celle a colonne multiple
 
 
 %% Estetica
-\usepackage[font=footnotesize,labelfont=bf]{caption} % caption piccole con titolo grassetto
+\RequirePackage[font=footnotesize,labelfont=bf]{caption} % caption piccole con titolo grassetto
 
-\usepackage{wrapfig} % testo del documento intorno ai float
+\RequirePackage{wrapfig} % testo del documento intorno ai float
 
 
 %% Floatbarriers
-\usepackage{placeins} % \FloatBarrier
+\RequirePackage{placeins} % \FloatBarrier
 
 % automaticamente mette un \FloatBarrier tra sections
-%\usepackage[section]{placeins} 
+%\RequirePackage[section]{placeins} 
 
 % chiamare \alwaysFloatBarrier per mettere \FloatBarrier ad ogni nuova (sotto(sotto))sezione
-%\usepackage{etoolbox} 
+%\RequirePackage{etoolbox} 
 %\newcommand\alwaysFloatBarrier{%
 %   \pretocmd{\section}{\FloatBarrier}{}{}%
 %   \pretocmd{\subsection}{\FloatBarrier}{}{}%
@@ -190,12 +190,12 @@
 
 
 %% Grafiche vettoriali
-%\usepackage{circuitikz} % circuiti
-%\usepackage{tikz} % grafiche vettoriali
+%\RequirePackage{circuitikz} % circuiti
+%\RequirePackage{tikz} % grafiche vettoriali
 
 
 %% Listati di programmazione
-\usepackage{listings}
+\RequirePackage{listings}
 
 % Stile esempio per python
 \definecolor{codegreen}{rgb}{0,0.6,0}
@@ -233,4 +233,4 @@
 
 %% BIBLIOGRAFIA----------------------------------------
 
-%\usepackage{biblatex,csquotes}
+%\RequirePackage{biblatex,csquotes}
