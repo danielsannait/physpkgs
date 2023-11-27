@@ -80,7 +80,13 @@
 
 \RequirePackage{cancel} % eq.ni sbarrate
 
-\newcommand{\lqq}[1]{,\quad \text{#1}}
+\newcommand{\lqq}[1]{,\quad \text{#1}} % ",  commento" in ambiente matematica
+
+% scambia le disequazioni con trattino orizzontale con quello parallelo
+\AtBeginDocument{\RenewDocumentCommand{\leq}{}{\leqslant}}
+\AtBeginDocument{\RenewDocumentCommand{\nleq}{}{\nleqslant}}
+\AtBeginDocument{\RenewDocumentCommand{\geq}{}{\geqslant}}
+\AtBeginDocument{\RenewDocumentCommand{\ngeq}{}{\ngeqslant}}
 
 % scambia \varphi con \phi
 \expandafter\mathchardef\expandafter\varphi\number\expandafter\phi\expandafter\relax
