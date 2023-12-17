@@ -119,8 +119,12 @@
 \RequirePackage[italian]{babel} % testo in italiano
 
 
+%% Citazioni
+\RequirePackage{csquotes} %\enquote{} testo normale, \textquote{} testo con riferimento
+
+
 %% Riferimenti
-\RequirePackage{hyperref} % citazioni con hyperlink non solo di \label, ma di testo, links...
+\RequirePackage{hyperref} % riferimenti con hyperlink non solo di \label, ma di testo, links...
 % da configurare con i colori scelti
 \hypersetup{
     colorlinks=true,
@@ -243,4 +247,7 @@
 
 %% BIBLIOGRAFIA----------------------------------------
 
-%\RequirePackage{biblatex,csquotes}
+%\RequirePackage{biblatex}
+%\AtBeginDocument{\addbibresource{ref.bib}}
+
+\endinput
