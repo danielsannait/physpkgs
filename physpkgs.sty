@@ -4,31 +4,91 @@
 \ProvidesPackage{physpkgs}
 
 
-%% LAYOUT ---------------------------------------------
 
-\RequirePackage[document]{ragged2e} % allineamento con sillabazione corretta
-\AtBeginDocument{\justifying} % giustifica il testo
+%% OPTIONS --------------------------------------------
+% article: standard
+% noindent: toglie l'indentazione dei paragrafi
+% sectionbarrier: auto floatbarrier ad ogni section
+% subsectionbarrier: auto floatbarrier ad ogni sub(sub...)section
+% tikz: importa tikz e circuitikz
+% code: importa listing, listati per codici
+% biblatex: importa biblatex con ref.bib come bibliografia
 
-% Rimuovere indentazione paragrafo
-%\setlength{\parindent}{0pt} % rimuove l'indentazione ad inizio paragrafo
-%\setlength{\JustifyingParindent}{0pt} % come sopra, ma solo per \justifying
-
-\RequirePackage{geometry}
-
-% formato sensato per A4 con margini 2cm
-% da rimuovere se in combinazione con qualcosa di specifico (eg. sapthesis)
-\geometry{
- a4paper,
- top=20mm,
- bottom=20mm,
- left=30mm,
- right=30mm
+\newif\if@article\@articlefalse
+\DeclareOption{article}{% impostazioni standard per article/report
+	\@articletrue
 }
 
-\RequirePackage[titletoc,page]{appendix} % appendice
+\newif\if@noindent\@noindentfalse
+\DeclareOption{noindent}{% Rimuovere indentazione paragrafo
+	\@noindenttrue
+}
 
-\RequirePackage{abstract} % abstract sensato (solo per le documentclass report e article)
+\newif\if@sectionbarrier\@sectionbarrierfalse
+\DeclareOption{sectionbarrier}{% automaticamente mette un \FloatBarrier tra section
+	\@sectionbarriertrue
+}
+
+\newif\if@subsectionbarrier\@subsectionbarrierfalse
+\DeclareOption{subsectionbarrier}{% \FloatBarrier ad ogni nuova (sub(sub))section
+	\@subsectionbarriertrue
+}
+
+\newif\if@tikz\@tikzfalse
+\DeclareOption{tikz}{% grafiche vettoriali con tikz
+	\@tikztrue
+}
+
+\newif\if@code\@codefalse
+\DeclareOption{code}{% listati di codice
+	\@codetrue
+}
+
+\newif\if@biblatex\@biblatexfalse
+\DeclareOption{biblatex}{%
+	\@biblatextrue
+}
+
+\newif\if@sapthesis\@sapthesisfalse
+\@ifclassloaded{sapthesis}{ % sapthesis ha i pacchetti di layout già impostati
+	\@sapthesistrue
+	\@articlefalse
+	\@noindenfalse
+	\@biblatextrue
+}{}
+
+\ProcessOptions\relax
+
+%% LAYOUT ---------------------------------------------
+
+\if@article
+	\RequirePackage[document]{ragged2e} % allineamento con sillabazione corretta
+	\AtBeginDocument{\justifying} % giustifica il testo
+	
+	\RequirePackage{geometry}
+	% formato sensato per A4 con margini 2cm
+	% da rimuovere se in combinazione con qualcosa di specifico (eg. sapthesis)
+	\geometry{
+	 a4paper,
+	 top=20mm,
+	 bottom=20mm,
+	 left=30mm,
+	 right=30mm
+	}
+
+	\RequirePackage{abstract} % abstract sensato (solo per le documentclass report e article)
+\fi
+
+
+\if@noindent
+	\setlength{\parindent}{0pt} % rimuove l'indentazione ad inizio paragrafo
+	%\setlength{\JustifyingParindent}{0pt} % come sopra, ma solo per \justifying
+\fi
+
+
+\RequirePackage[titletoc,page]{appendix} % appendice
 %------------------------------------------------------
+
 
 
 %% MATEMATICA, FISICA ---------------------------------
@@ -45,22 +105,50 @@
 \RequirePackage[amsthm,amsmath,thmmarks,hyperref]{ntheorem} % ambienti più flessibili (in conflutto con wrapfigure e amsthm). L'argomento amsthm importa gli stili di amsthm
 
 % ambienti teorema tradotti (con numerazione dipendente dalla sezione locale se c'è [section])
-\theoremstyle{plain}
-\newtheorem{theorem}{Teorema}[section]
-\newtheorem{lemma}{Lemma}
-\newtheorem{prop}{Proposizione}[section]
-\newtheorem{cor}{Corollario}[section]
+\if@article
+	\theoremstyle{plain}
+	\newtheorem{theorem}{Teorema}[section]
+	\newtheorem{lemma}{Lemma}
+	\newtheorem{prop}{Proposizione}[section]
+	\newtheorem{cor}{Corollario}[section]
+	
+	\theoremstyle{definition}
+	\newtheorem{defn}{Definizione}[section]
+	\newtheorem{conj}{Congettura}[section]
+	\newtheorem{example}{Esempio}[section]
+	
+	\theoremstyle{remark}
+	\newtheorem{remark}{Osservazione}
+	\newtheorem*{comment}{Commento}
+	\newtheorem*{note}{Nota}
+	%\newtheorem*{case}{Caso}
+\fi
 
-\theoremstyle{definition}
-\newtheorem{defn}{Definizione}[section]
-\newtheorem{conj}{Congettura}[section]
-\newtheorem{example}{Esempio}[section]
+\if@sapthesis
+\DeclareOption{sapthesis}{% basati sul counter del chapter
+	\theoremstyle{plain}
+	\newtheorem{theorem}{Teorema}[chapter]
+	\newtheorem{lemma}{Lemma}
+	\newtheorem{prop}{Proposizione}[chapter]
+	\newtheorem{cor}{Corollario}[chapter]
+	\newtheorem{postulate}{Postulato}
+	
+	\theoremstyle{definition}
+	\newtheorem{defn}{Definizione}[chapter]
+	\newtheorem{conj}{Congettura}[chapter]
+	
+	\theoremstyle{definition}
+	\theoremindent15pt
+	\theoremheaderfont{\normalfont\bfseries\hspace{-\theoremindent}}
+	\newtheorem{example}{Esempio}[chapter]
+	
+	\theoremstyle{remark}
+	\newtheorem{experiment}{Esperimento}[chapter]
+	\newtheorem{remark}{Osservazione}[chapter]
+	\newtheorem*{comment}{Commento}
+	\newtheorem*{note}{Nota}
+\fi
 
-\theoremstyle{remark}
-\newtheorem{remark}{Osservazione}
-\newtheorem*{comment}{Commento}
-\newtheorem*{note}{Nota}
-%\newtheorem*{case}{Caso}
 
 %% Unità di misura
 \RequirePackage{siunitx} % unità di misura
@@ -106,6 +194,7 @@
 %------------------------------------------------------
 
 
+
 %% TESTO, RIFERIMENTI----------------------------------
 
 \RequirePackage{cmap} % testo copiabile in output pdf
@@ -113,8 +202,9 @@
 
 %% Font
 \RequirePackage[utf8]{inputenc}
-\RequirePackage[T1]{fontenc}
-
+\if@article
+	\RequirePackage[T1]{fontenc}
+\fi
 
 %% Lingue
 \RequirePackage[italian]{babel} % testo in italiano
@@ -136,14 +226,27 @@
  
 \RequirePackage[italian,nameinlink]{cleveref} % citazioni perfette con prefissi in italiano (\cref{}). nameinlink rende tutto `fig.1' un link
 
+% Nomi per ambienti ntheorem
+\crefname{page}{pag.}{pagg.}
+\crefname{defn}{definizione}{definizioni}
+\Crefname{defn}{Definizione}{Definizioni}
+\if@sapthesis
+	\crefname{postulate}{postulato}{postulati}
+	\Crefname{postulate}{Postulato}{Postulati}
+	\crefname{experiment}{esperimento}{esperimenti}
+	\Crefname{experiment}{Esperimento}{Esperimenti}
+\fi
+
 \RequirePackage{makeidx} % indice analitico e citazioni ad argomenti nel testo con \index{macroargomento}, \index{macroarg!casoparticolare}
 
 
 %% Note a piè pagina
 \RequirePackage[multiple]{fnpct} % (\footnote prima della punteggiatura)
 
-\RequirePackage{footmisc}
-\renewcommand\footnotelayout\justifying % giustifica le footnote
+\if@article
+	\RequirePackage{footmisc}
+	\renewcommand\footnotelayout\justifying % giustifica le footnote
+\fi
 
 
 %% Colori
@@ -154,15 +257,20 @@
 %% Spaziature
 \RequirePackage{xspace} % \xspace gestisce gli spazi alla fine dei \newcommand{}
 
+\RequirePackage{ellipsis} % punti di sospensione ben spaziati
+
 
 %% Liste
-\RequirePackage{enumitem} % enumerate e altre liste personalizzate
+\RequirePackage[inline]{enumitem} % enumerate e altre liste personalizzate
 
 % liste puntate strette
 \setlist[itemize]{topsep=.1em, itemsep=.1em,parsep=0em, partopsep=0em} % liste puntate (itemize) strette
 
 \RequirePackage[ampersand]{easylist} % liste con tante indentazioni (usa & al posto di \item)
+
+\RequirePackage[oldenum,olditem]{paralist} % liste ottimizzate
 %------------------------------------------------------
+
 
 
 %% FLOAT-----------------------------------------------
@@ -172,18 +280,25 @@
 
 
 %% Immagini
-\RequirePackage{graphicx} % importare immagini
+\if@article
+	\RequirePackage{graphicx} % importare immagini
+\fi
+\RequirePackage{subcaption} % ambiente subfigure
 
 
 %% Tabelle
-\RequirePackage{booktabs} % tabelle avanzate
+\if@article
+	\RequirePackage{booktabs} % tabelle avanzate
+\fi
 
 \RequirePackage{multirow} % celle a righe multiple
 \RequirePackage{multicol} % celle a colonne multiple
 
 
 %% Estetica
-\RequirePackage[font=footnotesize,labelfont=bf]{caption} % caption piccole con titolo grassetto
+\if@article
+	\RequirePackage[font=footnotesize,labelfont=bf]{caption} % caption piccole con titolo grassetto
+\fi
 
 \RequirePackage{wrapfig} % testo del documento intorno ai float
 
@@ -191,64 +306,77 @@
 %% Floatbarriers
 \RequirePackage{placeins} % \FloatBarrier
 
-% automaticamente mette un \FloatBarrier tra section
-%\RequirePackage[section]{placeins} 
+\if@sectionbarrier
+	\PassOptionsToPackage{section}{placeins} 
+\fi
 
-% \FloatBarrier ad ogni nuova (sub(sub))section
-%\RequirePackage{etoolbox} 
-%\newcommand\alwaysFloatBarrier{%
-%   \pretocmd{\section}{\FloatBarrier}{}{}%
-%   \pretocmd{\subsection}{\FloatBarrier}{}{}%
-%   \pretocmd{\subsubsection}{\FloatBarrier}{}{}%
-%}
-%\AtBeginDocument{alwaysFloatBarrier}
+\if@subsectionbarrier
+	\RequirePackage{etoolbox} 
+	\newcommand\alwaysFloatBarrier{%
+	   \pretocmd{\section}{\FloatBarrier}{}{}%
+	   \pretocmd{\subsection}{\FloatBarrier}{}{}%
+	   \pretocmd{\subsubsection}{\FloatBarrier}{}{}%
+	}
+	\AtBeginDocument{alwaysFloatBarrier}
+\fi
 
 
 %% Grafiche vettoriali
-%\RequirePackage{circuitikz} % circuiti
-%\RequirePackage{tikz} % grafiche vettoriali
+\if@tikz
+	\RequirePackage{circuitikz} % circuiti
+	\RequirePackage{tikz} % grafiche vettoriali
+\fi
 
 
 %% Listati di programmazione
-\RequirePackage{listings}
-
-% Stile esempio per python
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
-\lstdefinestyle{mystyle}{ % stile predefinito
-    backgroundcolor=\color{backcolour},   
-    commentstyle=\color{codegreen},
-    keywordstyle=\color{magenta},
-    numberstyle=\tiny\color{codegray},
-    stringstyle=\color{codepurple},
-    basicstyle=\ttfamily\footnotesize,
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    %numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
-    showstringspaces=false,
-    showtabs=false,                  
-    tabsize=2
-}
-\lstset{
-    style=mystyle,
-    language=Python, % preimpostato per python
-    inputencoding=latin1, % supporta caratteri accentati
-    extendedchars=true,
-    literate={à}{{\`a}}1 {ò}{{\`o}}1 {è}{{\`e}}1 {ù}{{\`u}}1 % accenti aggiunti
-    }
-%------------------------------------------------------    
+\if@code
+	\RequirePackage{listings}
+	
+	% Stile esempio per python
+	\definecolor{codegreen}{rgb}{0,0.6,0}
+	\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+	\definecolor{codepurple}{rgb}{0.58,0,0.82}
+	\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+	\lstdefinestyle{mystyle}{ % stile predefinito
+	    backgroundcolor=\color{backcolour},   
+	    commentstyle=\color{codegreen},
+	    keywordstyle=\color{magenta},
+	    numberstyle=\tiny\color{codegray},
+	    stringstyle=\color{codepurple},
+	    basicstyle=\ttfamily\footnotesize,
+	    breakatwhitespace=false,         
+	    breaklines=true,                 
+	    captionpos=b,                    
+	    keepspaces=true,                 
+	    %numbers=left,                    
+	    numbersep=5pt,                  
+	    showspaces=false,                
+	    showstringspaces=false,
+	    showtabs=false,                  
+	    tabsize=2
+	}
+	\lstset{
+	    style=mystyle,
+	    language=Python, % preimpostato per python
+	    inputencoding=latin1, % supporta caratteri accentati
+	    extendedchars=true,
+	    literate={à}{{\`a}}1 {ò}{{\`o}}1 {è}{{\`e}}1 {ù}{{\`u}}1 % accenti aggiunti
+	    }
+\fi
+%------------------------------------------------------ 
 
 
 
 %% BIBLIOGRAFIA----------------------------------------
 
-%\RequirePackage{biblatex}
-%\AtBeginDocument{\addbibresource{ref.bib}}
+\if@biblatex
+	\RequirePackage{biblatex}
+	\AtBeginDocument{\addbibresource{ref.bib}}
+\fi
+%------------------------------------------------------ 
+
+
+%% Opzioni predefinite
+\ExecuteOptions{article}
 
 \endinput
