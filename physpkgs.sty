@@ -1,74 +1,66 @@
-% Caricare questo file nella stessa cartella del progetto e aggiungere
+% PACKAGES COLLECTION FOR LATEX DOCUMENTS ABOUT PHYSICS
+%
+% https://github.com/danielsannait/physpkgs
+%
+% Usage: put this file in the same folder as the main.tex file and add the following line in it
 % \usepackage{physpkgs}
+%-----------------------------------------------------------
 
 \ProvidesPackage{physpkgs}
 
-
-
 %% OPTIONS --------------------------------------------
-% article: standard
-% noindent: toglie l'indentazione dei paragrafi
-% sectionbarrier: auto floatbarrier ad ogni section
-% subsectionbarrier: auto floatbarrier ad ogni sub(sub...)section
-% tikz: importa tikz e circuitikz
-% code: importa listing, listati per codici
-% biblatex: importa biblatex con ref.bib come bibliografia
+% [italian]				Translates everything in italian (default english)
+% [article] (default)		A4 (adjusted) layout and other packages for a article/report class
+% [noindent]			Removes pragraphs indentation documentwise
+% [sectionbarrier]		Puts a floatbarrier after each section
+% [subsectionbarrier]	Puts a floatbarrier after each sub(sub...)section
+% [tikz]				Loads tikz and useful related packages
+% [code]				Loads listing for code snippets
+% [biblatex]			Loads biblatex with ref.bib as bibliography file
+
+\def\@language{english}
+\DeclareOption{italian}{\def\@language{italian}}
 
 \newif\if@article\@articlefalse
-\DeclareOption{article}{% impostazioni standard per article/report
-	\@articletrue
-}
+\DeclareOption{article}{\@articletrue}
 
 \newif\if@noindent\@noindentfalse
-\DeclareOption{noindent}{% Rimuovere indentazione paragrafo
-	\@noindenttrue
-}
+\DeclareOption{noindent}{\@noindenttrue}
 
 \newif\if@sectionbarrier\@sectionbarrierfalse
-\DeclareOption{sectionbarrier}{% automaticamente mette un \FloatBarrier tra section
-	\@sectionbarriertrue
-}
+\DeclareOption{sectionbarrier}{\@sectionbarriertrue}
 
 \newif\if@subsectionbarrier\@subsectionbarrierfalse
-\DeclareOption{subsectionbarrier}{% \FloatBarrier ad ogni nuova (sub(sub))section
-	\@subsectionbarriertrue
-}
+\DeclareOption{subsectionbarrier}{\@subsectionbarriertrue}
 
 \newif\if@tikz\@tikzfalse
-\DeclareOption{tikz}{% grafiche vettoriali con tikz
-	\@tikztrue
-}
+\DeclareOption{tikz}{\@tikztrue}
 
 \newif\if@code\@codefalse
-\DeclareOption{code}{% listati di codice
-	\@codetrue
-}
+\DeclareOption{code}{\@codetrue}
 
 \newif\if@biblatex\@biblatexfalse
-\DeclareOption{biblatex}{%
-	\@biblatextrue
-}
+\DeclareOption{biblatex}{\@biblatextrue}
 
 \newif\if@sapthesis\@sapthesisfalse
-\@ifclassloaded{sapthesis}{ % sapthesis ha i pacchetti di layout già impostati
+\@ifclassloaded{sapthesis}{	% Ensures compatibily with the sapthesis class
 	\@sapthesistrue
 	\@articlefalse
-	\@noindenfalse
+	\@noindentfalse
 	\@biblatextrue
 }{}
 
 \ProcessOptions\relax
 
+
 %% LAYOUT ---------------------------------------------
 
 \if@article
-	\RequirePackage[document]{ragged2e} % allineamento con sillabazione corretta
-	\AtBeginDocument{\justifying} % giustifica il testo
+	\RequirePackage[document]{ragged2e}	% alligning with correct hyphenation 
+	\AtBeginDocument{\justifying} 			% justified text
 	
 	\RequirePackage{geometry}
-	% formato sensato per A4 con margini 2cm
-	% da rimuovere se in combinazione con qualcosa di specifico (eg. sapthesis)
-	\geometry{
+	\geometry{ 							% A4 paper size layout with sensible 2cm margins
 	 a4paper,
 	 top=20mm,
 	 bottom=20mm,
@@ -76,56 +68,56 @@
 	 right=30mm
 	}
 
-	\RequirePackage{abstract} % abstract sensato (solo per le documentclass report e article)
+	\RequirePackage{abstract} 				% abstract
 \fi
 
 
 \if@noindent
-	\setlength{\parindent}{0pt} % rimuove l'indentazione ad inizio paragrafo
-	%\setlength{\JustifyingParindent}{0pt} % come sopra, ma solo per \justifying
+	\setlength{\parindent}{0pt} 			% removes indentation at the begining of each paragraph
+	%\setlength{\JustifyingParindent}{0pt}	% as before, but just for \justifying
 \fi
 
 
-\RequirePackage[titletoc,page]{appendix} % appendice
-%------------------------------------------------------
+\RequirePackage[titletoc,page]{appendix} 	% appendix with toc reference
+%---------------------------------------------------------
 
 
 
-%% MATEMATICA, FISICA ---------------------------------
+%% MATHS, PHYSICS ---------------------------------
 
-%% Essenziali
-\RequirePackage{amsmath,amssymb,mathrsfs} % simboli e ambienti matematica (in particolare \mathscr)
+%% Essentials
+\RequirePackage{amsmath,amssymb,mathrsfs} 	% symbols and environments
+\RequirePackage{physics} 						% collections of useful commands for matrices, kets, brackets.
 
-\RequirePackage{physics} % miscelanea per equazioni di fisica, matrici, parentesi, ket, etc.
 
+%% Theorems
+%\RequirePackage{amsthm} 					% in conflict with ntheorem
+\RequirePackage[amsthm,amsmath,thmmarks,hyperref]{ntheorem} 	% in conflict with wrapfigure and amsthm
 
-%% Teoremi
-%\RequirePackage{amsthm} % ambienti teorema, proposizione, definizioni, etc. (in conflitto con ntheorem) 
-
-\RequirePackage[amsthm,amsmath,thmmarks,hyperref]{ntheorem} % ambienti più flessibili (in conflutto con wrapfigure e amsthm). L'argomento amsthm importa gli stili di amsthm
-
-% ambienti teorema tradotti (con numerazione dipendente dalla sezione locale se c'è [section])
+% Theorem environments translated in italian (con numerazione dipendente dalla sezione locale se c'è [section])
 \if@article
-	\theoremstyle{plain}
-	\newtheorem{theorem}{Teorema}[section]
-	\newtheorem{lemma}{Lemma}
-	\newtheorem{prop}{Proposizione}[section]
-	\newtheorem{cor}{Corollario}[section]
+	\def\@languagecheck{italian}
+	\ifx\@language\@languagecheck
+		\theoremstyle{plain}
+		\newtheorem{theorem}{Teorema}[section]
+		\newtheorem{lemma}{Lemma}
+		\newtheorem{prop}{Proposizione}[section]
+		\newtheorem{cor}{Corollario}[section]
 	
-	\theoremstyle{definition}
-	\newtheorem{defn}{Definizione}[section]
-	\newtheorem{conj}{Congettura}[section]
-	\newtheorem{example}{Esempio}[section]
+		\theoremstyle{definition}
+		\newtheorem{defn}{Definizione}[section]
+		\newtheorem{conj}{Congettura}[section]
+		\newtheorem{example}{Esempio}[section]
 	
-	\theoremstyle{remark}
-	\newtheorem{remark}{Osservazione}
-	\newtheorem*{comment}{Commento}
-	\newtheorem*{note}{Nota}
-	%\newtheorem*{case}{Caso}
+		\theoremstyle{remark}
+		\newtheorem{remark}{Osservazione}
+		\newtheorem*{comment}{Commento}
+		\newtheorem*{note}{Nota}
+		%\newtheorem*{case}{Caso}
+	\fi
 \fi
 
 \if@sapthesis
-\DeclareOption{sapthesis}{% basati sul counter del chapter
 	\theoremstyle{plain}
 	\newtheorem{theorem}{Teorema}[chapter]
 	\newtheorem{lemma}{Lemma}
@@ -150,42 +142,35 @@
 \fi
 
 
-%% Unità di misura
-\RequirePackage{siunitx} % unità di misura
+%% Measuring units
+\RequirePackage{siunitx}
 
-% Risolve il conflitto con physics
-% (se commentato \qty è quello di physics, basta usare \SI al posto di quello di siunitx)
-%\AtBeginDocument{\RenewCommandCopy\qty\SI} % rimuove \qty per entrambi
+% Solves the conflict with physics
+% (if commented, \qty is from physics and is sufficient to use its substitute \SI for siunitx)
+%\AtBeginDocument{\RenewCommandCopy\qty\SI} % Removes \qty for both
 \ExplSyntaxOn
 \msg_redirect_name:nnn { siunitx } { physics-pkg } { none }
 \ExplSyntaxOff
 
 
-%% Estetica
-\RequirePackage{xfrac} % \sfrac, frazioni in linea
+%% Aesthetics
+\RequirePackage{xfrac} 	% \sfrac, in line fractions
+\RequirePackage{bm} 		% \bm{\alpha} bold typeface for greek letters (for vectors use \vb*). In genenal, better bold
+\RequirePackage{cancel} 	% slashed eqs
+\NewDocumentCommand{\eps}{}{\varepsilon} 	% \epsilon variant, shorter and cooler
+\NewDocumentCommand{\id}{}{\mathbb{I}} 	% identity matrix/operator
 
-\RequirePackage{bm} % \bm{\alpha} grassetto per lettere greche (per vettori usare \vb*), in generale grassetto fatto bene
-
-\RequirePackage{cancel} % eq.ni sbarrate
-
-% ``,   '' in ambiente matematica, con lqq[testo] l'argomento è testo
-\ProvideDocumentCommand{\lqq}{!O{}}{,\quad {\text{#1}}} 
-
-\NewDocumentCommand{\eps}{}{\varepsilon} % \epsilon più breve e più bella
-
-\NewDocumentCommand{\id}{}{\mathbb{I}} % matrice/operatore identità
-
-% scambia le disequazioni con trattino orizzontale con quello parallelo
+% swaps unequalities with slanted dash ones
 \AtBeginDocument{\RenewDocumentCommand{\leq}{}{\leqslant}}
 \AtBeginDocument{\RenewDocumentCommand{\nleq}{}{\nleqslant}}
 \AtBeginDocument{\RenewDocumentCommand{\geq}{}{\geqslant}}
 \AtBeginDocument{\RenewDocumentCommand{\ngeq}{}{\ngeqslant}}
 
-% scambia \varphi con \phi
+% swaps \varphi with \phi
 \expandafter\mathchardef\expandafter\varphi\number\expandafter\phi\expandafter\relax
 \expandafter\mathchardef\expandafter\phi\number\varphi
 
-% radice quadrata con chiusura alla fine
+% closed square root
 \let\oldsqrt\sqrt % it renames \sqrt as \oldsqrt
 \def\sqrt{\mathpalette\DHLhksqrt} % it defines the new \sqrt in terms of the old one
 \def\DHLhksqrt#1#2{%
@@ -197,9 +182,9 @@
 
 
 
-%% TESTO, RIFERIMENTI----------------------------------
+%% TEXT, REFERENCE ----------------------------
 
-\RequirePackage{cmap} % testo copiabile in output pdf
+\RequirePackage{cmap}		% text copy-paste from pdf
 
 
 %% Font
@@ -208,27 +193,26 @@
 	\RequirePackage[T1]{fontenc}
 \fi
 
-%% Lingue
-\RequirePackage[italian]{babel} % testo in italiano
+%% Languages
+\RequirePackage[\@language]{babel}
 
 
-%% Citazioni
-\RequirePackage{csquotes} %\enquote{} testo normale, \textquote{} testo con riferimento
+%% Quotes
+\RequirePackage{csquotes}	%\enquote{} normal text, \textquote{} text with reference
 
 
-%% Riferimenti
-\RequirePackage{hyperref} % riferimenti con hyperlink non solo di \label, ma di testo, links...
-% da configurare con i colori scelti
-\hypersetup{
+%% References
+\RequirePackage{hyperref}	% references with hyperlinks
+\hypersetup{ 				% to be configured with prefered colors
     colorlinks=true,
     %linkcolor=blue,
     %urlcolor=blue,
     %citecolor=gray,
     }
  
-\RequirePackage[italian,nameinlink]{cleveref} % citazioni perfette con prefissi in italiano (\cref{}). nameinlink rende tutto `fig.1' un link
+\RequirePackage[\@language,nameinlink]{cleveref}	% references with advance prefixes (\cref{}). nameinlink makes everything `fig.1' a link
 
-% Nomi per ambienti ntheorem
+% Names for ntheorem environments (in italian)
 \crefname{page}{pag.}{pagg.}
 \crefname{defn}{definizione}{definizioni}
 \Crefname{defn}{Definizione}{Definizioni}
@@ -239,77 +223,75 @@
 	\Crefname{experiment}{Esperimento}{Esperimenti}
 \fi
 
-\RequirePackage{makeidx} % indice analitico e citazioni ad argomenti nel testo con \index{macroargomento}, \index{macroarg!casoparticolare}
+\RequirePackage{makeidx}	% analitic index and references to arguments  with \index{topic}, \index{topic!subtipic}
 
 
-%% Note a piè pagina
-\RequirePackage[multiple]{fnpct} % (\footnote prima della punteggiatura)
+%% Footnotes
+\RequirePackage[multiple]{fnpct}				% \footnote before punctuation
 
 \if@article
 	\RequirePackage{footmisc}
-	\renewcommand\footnotelayout\justifying % giustifica le footnote
+	\renewcommand\footnotelayout\justifying 	% justified footnotes
 \fi
 
 
-%% Colori
-\RequirePackage{xcolor} % testo a colori
-\definecolor{sapred}{RGB}{130,36,51} % rosso sapienza
+%% Colors
+\RequirePackage{xcolor}
+\definecolor{sapred}{RGB}{130,36,51} % sapienza red
 
 
-%% Spaziature
-\RequirePackage{xspace} % \xspace gestisce gli spazi alla fine dei \newcommand{}
+%% Spacing
+\RequirePackage{xspace}	% \xspace manages spacing if put at the end of \newcommand{}
 
-\RequirePackage{ellipsis} % punti di sospensione ben spaziati
+\RequirePackage{ellipsis}	% ellipses well done
 
 
-%% Liste
-\RequirePackage[inline]{enumitem} % enumerate e altre liste personalizzate
+%% Lists
+\RequirePackage[inline]{enumitem}			% enumerate and other personalized lists
+\setlist[itemize]{topsep=.1em, itemsep=.1em,parsep=0em, partopsep=0em} 	% compact dotted lists
 
-% liste puntate strette
-\setlist[itemize]{topsep=.1em, itemsep=.1em,parsep=0em, partopsep=0em} % liste puntate (itemize) strette
+\RequirePackage[ampersand]{easylist}		% lists with many indentations (use & instead of \item)
 
-\RequirePackage[ampersand]{easylist} % liste con tante indentazioni (usa & al posto di \item)
-
-\RequirePackage[oldenum,olditem]{paralist} % liste ottimizzate
+\RequirePackage[oldenum,olditem]{paralist}	% optimized lists
 %------------------------------------------------------
 
 
 
-%% FLOAT-----------------------------------------------
+%% FLOAT ------------------------------------------
 
-\RequirePackage{float} % migliora i float, aggiunge [H] come opzione di posizione (H funziona male con twocolumn)
-%\floatplacement{figure}{H} % imposta tutti i float con [H]
+\RequirePackage{float}			% better floats. Adds the [H] option (not good with twocolumn)
+%\floatplacement{figure}{H} 		% sets every float with [H] by default
 
 
-%% Immagini
-\if@article
-	\RequirePackage{graphicx} % importare immagini
+%% Images
+\if@sapthesis\else
+	\RequirePackage{graphicx}	% import images
 \fi
-\RequirePackage{subcaption} % ambiente subfigure
+\RequirePackage{subcaption} 		% subfigure environment
 
 
-%% Tabelle
-\if@article
-	\RequirePackage{booktabs} % tabelle avanzate
-\fi
-
-\RequirePackage{multirow} % celle a righe multiple
-\RequirePackage{multicol} % celle a colonne multiple
-
-
-%% Estetica
-\if@article
-	\RequirePackage[font=footnotesize,labelfont=bf]{caption} % caption piccole con titolo grassetto
+%% Tables
+\if@sapthesis\else
+	\RequirePackage{booktabs}	% advance tables
 \fi
 
-\RequirePackage{wrapfig} % testo del documento intorno ai float
+\RequirePackage{multirow} 		% multiple rows cells
+\RequirePackage{multicol} 		% multiple column cells
+
+
+%% Aesthetics
+\if@article
+	\RequirePackage[font=footnotesize,labelfont=bf]{caption}	% small captions with bold title
+\fi
+
+\RequirePackage{wrapfig} 			% text wraps around figures
 
 
 %% Floatbarriers
-\RequirePackage{placeins} % \FloatBarrier
+\RequirePackage{placeins} 		% \FloatBarrier
 
 \if@sectionbarrier
-	\PassOptionsToPackage{section}{placeins} 
+	\PassOptionsToPackage{section}{placeins}
 \fi
 
 \if@subsectionbarrier
@@ -323,23 +305,24 @@
 \fi
 
 
-%% Grafiche vettoriali
+%% Vectorial graphics
 \if@tikz
-	\RequirePackage{circuitikz} % circuiti
-	\RequirePackage{tikz} % grafiche vettoriali
+	\RequirePackage{tikz}
+	\RequirePackage{circuitikz} 		% circuit diagrams
+	\RequirePackage{tikz-feynman}	% Feynman diagrams
 \fi
 
 
-%% Listati di programmazione
+%% Code listings
 \if@code
 	\RequirePackage{listings}
 	
-	% Stile esempio per python
+	% Personalized style
 	\definecolor{codegreen}{rgb}{0,0.6,0}
 	\definecolor{codegray}{rgb}{0.5,0.5,0.5}
 	\definecolor{codepurple}{rgb}{0.58,0,0.82}
 	\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
-	\lstdefinestyle{mystyle}{ % stile predefinito
+	\lstdefinestyle{mystyle}{
 	    backgroundcolor=\color{backcolour},   
 	    commentstyle=\color{codegreen},
 	    keywordstyle=\color{magenta},
@@ -350,7 +333,7 @@
 	    breaklines=true,                 
 	    captionpos=b,                    
 	    keepspaces=true,                 
-	    %numbers=left,                    
+	    %numbers=left,           % no line numbering
 	    numbersep=5pt,                  
 	    showspaces=false,                
 	    showstringspaces=false,
@@ -359,10 +342,10 @@
 	}
 	\lstset{
 	    style=mystyle,
-	    language=Python, % preimpostato per python
-	    inputencoding=latin1, % supporta caratteri accentati
+	    language=Python, 		% selected code language
+	    inputencoding=latin1, 	% support for diacritics
 	    extendedchars=true,
-	    literate=  % accenti aggiunti
+	    literate=  				% accented characters
 		  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
 		  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
 		  {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
@@ -384,16 +367,12 @@
 
 
 
-%% BIBLIOGRAFIA----------------------------------------
+%% BIBLIOGRAFY ---------------------------------
 
 \if@biblatex
 	\RequirePackage{biblatex}
 	\AtBeginDocument{\addbibresource{ref.bib}}
 \fi
 %------------------------------------------------------ 
-
-
-%% Opzioni predefinite
-\ExecuteOptions{article}
 
 \endinput
