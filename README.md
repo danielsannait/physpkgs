@@ -1,46 +1,41 @@
-# ```physpkgs```: latex packages for physics
-Collezione di pacchetti per un articolo scritto in LaTeX (```\documentclass{article}``` o simili) riguardo ambiti di fisica e matematica con testo in italiano. Compatibile con ```sapthesis```.
-
-## Utilizzo
-Dopo aver inserito il file ```physpkgs.sty``` nella cartella del file di tex principale, caricare il pacchetto con ```\usepackage{physpkgs}```.
-Per un utilizzo senza molte pretese questo è quanto basta per scrivere un articolo.
-
-### Opzioni del pacchetto ```\usepackage[options]{physpkgs}```
-- ```article```: _default_, per impaginare un A4 per classi article, report o simili.
-- ```noindent```: rimuove tutte le indentazioni ad inizio paragrafo.
-- ```sectionbarrier``` e ```subsectionbarrier```: attivano automaticamente un ```\FloatBarrier``` alla fine di ogni sezione (la prima) o di ogni sezionamento (la seconda), quindi anche ```\subsubsection{}```.
-- ```tikz```: include i pacchetti tikz e circuitikz per le grafiche vettoriali
-- ```code```: include il pacchetto listings per i listati con una formattazione per python.
-- ```biblatex```: includ il pacchetto biblatex e sceglie come sorgente ```ref.bib```.
-
-Se si sceglie la documentclass ```sapthesis```, automaticamente sono selezionati i pacchetti compatibili e attivata l'opzione ```biblatex```.
-
-Per esigenze specifiche (e non sono affatto rare), potrebbe essere necessario rimuovere alcuni pacchetti oppure modificarne le impostazioni: aprendo il file .sty è possibile modificarne il contenuto per adattarlo alle necessità del proprio progetto.
+# ```physpkgs```: LaTeX packages for physics
+Collection of Latex packaged fot a document written in english or italian with LaTeX where physics/maths notation is needed. It is compatible with the ```sapthesis``` class.
 
 
-## Riassunto delle _features_ principali
-
-I pacchetti selezionati introducono le seguenti _features_ principali:
-- Layout: formattazione pagina per un A4 a margini di 2 cm su-giù, 3 cm sx-dx, testo giustificato, appendici, sommario.
-- Matematica, fisica: varie per equazioni (alfabeti di simboli speciali), unità di misura (```\unit{}```) e ambienti per teoremi e definizioni.
-- Riferimenti: citazioni migliorate in italiano (```\cref{}```), link estetici (hyperref), note a piè pagina.
-- Float: immagini, tabelle con celle multiriga e multicolonna, _caption_ migliorate, ```\FloatBarrier``` automatici al cambio di _section_ (da attivare).
-- Codice: _snippet_ per listati di Python (_color-coded_).
-
-## Note sulle funzioni aggiunte
-
-Sono state aggiunte alcune funzioni utili:
-- ```\lqq[]``` è ispirata a ```\qq{}``` di physics e introduce virgola e testo a fianco di equazioni in ambiente matematica (al suo interno si può ridichiarare un ambiente matematica con ```$...$```).
-- ```sapred``` è il colore rosso de 'La Sapienza' di Roma.
+## Usage
+Add the ```physpkgs.sty``` file in the same folder as the main ```.tex``` file and load it with ```\usepackage{physpkgs}```.
+Up to this point, it is compatible with almost every document class.
 
 
-## Errori e incompatibilità tra pacchetti
+### Options for this package ```\usepackage[options]{physpkgs}```
+- ```[italian]```: Translates everything in italian (default language english).
+- ```[article]```:  A4 (adjusted) layout and other packages for a article/report class.
+- ```[noindent]```: Removes pragraphs indentation documentwise.
+- ```[sectionbarrier]``` or ```[subsectionbarrier]```: Puts a floatbarrier after each section or after each sub(sub...)section.
+- ```[tikz]```: Loads tikz and useful related packages.
+- ```[code]```: Loads listing for code snippets.
+- ```[biblatex]```: Loads biblatex with ref.bib as bibliography file.
 
-Sono stati risolti tutti gli errori di compilazione e selezionato accuratamente l'ordine e le opzioni di importazione dei pacchetti per assicurare una buona compatibilità.
+If the documentclass ```sapthesis``` is chosen, then every compatible package from physpkgs is loaded and the ```biblatex``` option activated.
 
-In particolare si fa notare che:
-- ```\qty{}``` è in conflitto tra i pacchetti physics e siunitx. Si è scelto di preservare la funzione di physics come parentesi adattive. Per la funzione di siunitx di numero con unità si può usare ```\SI``` (e.g. ```\SI{10}{m}```)
-- ntheorem è in conflitto con amsthm (disabilitato)
+For specific situations, certain packages may be exluded by commenting out the appropriate line inside the ```.sty``` file. Choosing ```ntheorem``` environments is one of these situations. 
 
+
+## Summary of main features
+I'm lazy. Inside there is a lot of stuff that when you are facing that super-specific situation just makes sense, but I don't have enough time to make a manual. Just open the ```.sty``` and have a look. However, a bland overview of the main and obvious necessities when writing such documents is the following:
+- Layout: sensible A4 layout with 2-3 cm magins (default LaTeX ```a4paper``` is a crime agains trees), justified text, appendix and abstract environments.
+- Maths, physics: the ```physics``` package (it's amazing, even if vary badly written), special characters for equations, ```\unit{}``` and much more.
+- References: better references (```\cref{}```), ```hyperref```, justified footnotes.
+- Float: multirow and multicolumn cells in tables, better captions, automatic ```\FloatBarrier``.
+- Code: color-coded snippets for programming languages (e.g. Phyton).
+
+
+## Errrors and packages incompatibilities
+
+Every compilation error due to incompatibilities between packages has been (painstakingly) resolved. Turns out that even the loading order of packages matters.
+
+Note that:
+- ```\qty{}``` is both used in ```physics``` and ```siunix```, but in the latter ```\SI``` is its redudancy. So ```\qty``` for ```physics``` has been preserved (and what a beauty it is) for adaptive brackets.
+- ```ntheorem``` is in conflict with ```amsthm``` and ```wrapfigure```, that are not loaded by default.
 
 
