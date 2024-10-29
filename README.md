@@ -1,5 +1,5 @@
 # ```physpkgs```: LaTeX packages for physics
-Collection of Latex packaged fot a document written in english or italian with LaTeX where physics/maths notation is needed. It is compatible with the ```sapthesis``` class.
+Collection of LaTeX packages for a document written in english or italian with LaTeX where physics/maths notation is needed. It is compatible with the ```sapthesis``` class.
 
 
 ## Usage
