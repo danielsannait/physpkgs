@@ -3,19 +3,19 @@
 % https://github.com/danielsannait/physpkgs
 %
 % Usage: put this file in the same folder as the main.tex file and add the following line in it
-% \usepackage{physpkgs}
+%	\usepackage{physpkgs}
 %-----------------------------------------------------------
 
 \ProvidesPackage{physpkgs}
 
 %% OPTIONS --------------------------------------------
-% [italian]				Translates everything in italian (default english)
+% [italian]			Translates everything in italian (default english)
 % [article] (default)		A4 (adjusted) layout and other packages for a article/report class
 % [noindent]			Removes pragraphs indentation documentwise
 % [sectionbarrier]		Puts a floatbarrier after each section
-% [subsectionbarrier]	Puts a floatbarrier after each sub(sub...)section
-% [tikz]				Loads tikz and useful related packages
-% [code]				Loads listing for code snippets
+% [subsectionbarrier]		Puts a floatbarrier after each sub(sub...)section
+% [tikz]			Loads tikz and useful related packages
+% [code]			Loads listing for code snippets
 % [biblatex]			Loads biblatex with ref.bib as bibliography file
 
 \def\@language{english}
@@ -57,10 +57,10 @@
 
 \if@article
 	\RequirePackage[document]{ragged2e}	% alligning with correct hyphenation 
-	\AtBeginDocument{\justifying} 			% justified text
+	\AtBeginDocument{\justifying} 		% justified text
 	
 	\RequirePackage{geometry}
-	\geometry{ 							% A4 paper size layout with sensible 2cm margins
+	\geometry{ 				% A4 paper size layout with sensible 2cm margins
 	 a4paper,
 	 top=20mm,
 	 bottom=20mm,
@@ -68,13 +68,13 @@
 	 right=30mm
 	}
 
-	\RequirePackage{abstract} 				% abstract
+	\RequirePackage{abstract} 		% abstract
 \fi
 
 
 \if@noindent
-	\setlength{\parindent}{0pt} 			% removes indentation at the begining of each paragraph
-	%\setlength{\JustifyingParindent}{0pt}	% as before, but just for \justifying
+	\setlength{\parindent}{0pt} 		% removes indentation at the begining of each paragraph
+	\setlength{\JustifyingParindent}{0pt}	% as before, but just for \justifying
 \fi
 
 
@@ -87,7 +87,7 @@
 
 %% Essentials
 \RequirePackage{amsmath,amssymb,mathrsfs} 	% symbols and environments
-\RequirePackage{physics} 						% collections of useful commands for matrices, kets, brackets.
+\RequirePackage{physics} 			% collections of useful commands for matrices, kets, brackets.
 
 
 %% Theorems
@@ -154,7 +154,7 @@
 
 
 %% Aesthetics
-\RequirePackage{xfrac} 	% \sfrac, in line fractions
+\RequirePackage{xfrac} 		% \sfrac, in line fractions
 \RequirePackage{bm} 		% \bm{\alpha} bold typeface for greek letters (for vectors use \vb*). In genenal, better bold
 \RequirePackage{cancel} 	% slashed eqs
 \NewDocumentCommand{\eps}{}{\varepsilon} 	% \epsilon variant, shorter and cooler
@@ -203,11 +203,11 @@
 
 %% References
 \RequirePackage{hyperref}	% references with hyperlinks
-\hypersetup{ 				% to be configured with prefered colors
+\hypersetup{ 			% to be configured with prefered colors
     colorlinks=true,
-    %linkcolor=blue,
-    %urlcolor=blue,
-    %citecolor=gray,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=gray,
     }
  
 \RequirePackage[\@language,nameinlink]{cleveref}	% references with advance prefixes (\cref{}). nameinlink makes everything `fig.1' a link
@@ -227,7 +227,7 @@
 
 
 %% Footnotes
-\RequirePackage[multiple]{fnpct}				% \footnote before punctuation
+\RequirePackage[multiple]{fnpct}	% \footnote before punctuation
 
 \if@article
 	\RequirePackage{footmisc}
@@ -237,20 +237,20 @@
 
 %% Colors
 \RequirePackage{xcolor}
-\definecolor{sapred}{RGB}{130,36,51} % sapienza red
+\definecolor{sapred}{RGB}{130,36,51}	% sapienza red
 
 
 %% Spacing
 \RequirePackage{xspace}	% \xspace manages spacing if put at the end of \newcommand{}
 
-\RequirePackage{ellipsis}	% ellipses well done
+\RequirePackage{ellipsis}		% ellipses well done
 
 
 %% Lists
-\RequirePackage[inline]{enumitem}			% enumerate and other personalized lists
+\RequirePackage[inline]{enumitem}	% enumerate and other personalized lists
 \setlist[itemize]{topsep=.1em, itemsep=.1em,parsep=0em, partopsep=0em} 	% compact dotted lists
 
-\RequirePackage[ampersand]{easylist}		% lists with many indentations (use & instead of \item)
+\RequirePackage[ampersand]{easylist}	% lists with many indentations (use & instead of \item)
 
 \RequirePackage[oldenum,olditem]{paralist}	% optimized lists
 %------------------------------------------------------
@@ -267,7 +267,7 @@
 \if@sapthesis\else
 	\RequirePackage{graphicx}	% import images
 \fi
-\RequirePackage{subcaption} 		% subfigure environment
+\RequirePackage{subcaption} 	% subfigure environment
 
 
 %% Tables
@@ -284,7 +284,7 @@
 	\RequirePackage[font=footnotesize,labelfont=bf]{caption}	% small captions with bold title
 \fi
 
-\RequirePackage{wrapfig} 			% text wraps around figures
+\RequirePackage{wrapfig} 		% text wraps around figures
 
 
 %% Floatbarriers
@@ -296,19 +296,19 @@
 
 \if@subsectionbarrier
 	\RequirePackage{etoolbox} 
-	\newcommand\alwaysFloatBarrier{%
+	\newcommand{\alwaysFloatBarrier}{%
 	   \pretocmd{\section}{\FloatBarrier}{}{}%
 	   \pretocmd{\subsection}{\FloatBarrier}{}{}%
 	   \pretocmd{\subsubsection}{\FloatBarrier}{}{}%
 	}
-	\AtBeginDocument{alwaysFloatBarrier}
+	\AtBeginDocument{\alwaysFloatBarrier}
 \fi
 
 
 %% Vectorial graphics
 \if@tikz
 	\RequirePackage{tikz}
-	\RequirePackage{circuitikz} 		% circuit diagrams
+	\RequirePackage{circuitikz} 	% circuit diagrams
 	\RequirePackage{tikz-feynman}	% Feynman diagrams
 \fi
 
@@ -333,7 +333,7 @@
 	    breaklines=true,                 
 	    captionpos=b,                    
 	    keepspaces=true,                 
-	    %numbers=left,           % no line numbering
+	    %numbers=left,		% no line numbering
 	    numbersep=5pt,                  
 	    showspaces=false,                
 	    showstringspaces=false,
@@ -345,7 +345,7 @@
 	    language=Python, 		% selected code language
 	    inputencoding=latin1, 	% support for diacritics
 	    extendedchars=true,
-	    literate=  				% accented characters
+	    literate=  			% accented characters in input
 		  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
 		  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
 		  {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
