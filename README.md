@@ -30,7 +30,7 @@ I'm lazy. Inside there is a lot of stuff that when you are facing that super-spe
 - **Code**: color-coded snippets for programming languages (e.g. Phyton).
 
 
-## Errrors and packages incompatibilities
+## Errors and packages incompatibilities
 Every compilation error due to incompatibilities between packages has been (painstakingly) resolved. Turns out that even the loading order of packages matters.
 
 Note that:
