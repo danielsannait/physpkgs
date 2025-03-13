@@ -9,14 +9,15 @@
 \ProvidesPackage{physpkgs}
 
 %% OPTIONS --------------------------------------------
-% [italian]			Translates everything in italian (default english)
-% [article] (default)		A4 (adjusted) layout and other packages for a article/report class
-% [noindent]			Removes pragraphs indentation documentwise
-% [sectionbarrier]		Puts a floatbarrier after each section
-% [subsectionbarrier]		Puts a floatbarrier after each sub(sub...)section
-% [tikz]			Loads tikz and useful related packages
-% [code]			Loads listing for code snippets
-% [biblatex]			Loads biblatex with ref.bib as bibliography file
+% [italian]				Translates everything in italian (default english)
+% [article]				A4 adjusted layout and other packages for a article/report class
+% [noindent]				Removes pragraphs indentation documentwise
+% [sectionbarrier]			Puts a floatbarrier after each section
+% [subsectionbarrier]			Puts a floatbarrier after each sub(sub...)section
+% [theorem]				Loads theorem environments (only in italian)
+% [tikz]				Loads tikz and useful related packages
+% [code]				Loads listing for code snippets
+% [biblatex]				Loads biblatex with ref.bib as bibliography file
 
 \def\@language{english}
 \DeclareOption{italian}{\def\@language{italian}}
@@ -33,6 +34,9 @@
 \newif\if@subsectionbarrier\@subsectionbarrierfalse
 \DeclareOption{subsectionbarrier}{\@subsectionbarriertrue}
 
+\newif\if@theorem\@theoremfalse
+\DeclareOption{theorem}{\@theoremtrue}
+
 \newif\if@tikz\@tikzfalse
 \DeclareOption{tikz}{\@tikztrue}
 
@@ -43,7 +47,7 @@
 \DeclareOption{biblatex}{\@biblatextrue}
 
 \newif\if@sapthesis\@sapthesisfalse
-\@ifclassloaded{sapthesis}{	% Ensures compatibily with the sapthesis class
+\@ifclassloaded{sapthesis}{			% Ensures compatibily with the sapthesis class
 	\@sapthesistrue
 	\@articlefalse
 	\@noindentfalse
@@ -56,11 +60,11 @@
 %% LAYOUT ---------------------------------------------
 
 \if@article
-	\RequirePackage[document]{ragged2e}	% alligning with correct hyphenation 
-	\AtBeginDocument{\justifying} 		% justified text
+	\RequirePackage[document]{ragged2e}		% alligning with correct hyphenation 
+	\AtBeginDocument{\justifying} 			% justified text
 	
 	\RequirePackage{geometry}
-	\geometry{ 				% A4 paper size layout with sensible 2cm margins
+	\geometry{ 					% A4 paper size layout with sensible 2cm margins
 	 a4paper,
 	 top=20mm,
 	 bottom=20mm,
@@ -68,17 +72,17 @@
 	 right=30mm
 	}
 
-	\RequirePackage{abstract} 		% abstract
+	\RequirePackage{abstract}			% abstract
 \fi
 
 
 \if@noindent
-	\setlength{\parindent}{0pt} 		% removes indentation at the begining of each paragraph
-	\setlength{\JustifyingParindent}{0pt}	% as before, but just for \justifying
+	\setlength{\parindent}{0pt} 			% removes indentation at the begining of each paragraph
+	\setlength{\JustifyingParindent}{0pt}		% as before, but just for \justifying
 \fi
 
 
-\RequirePackage[titletoc,page]{appendix} 	% appendix with toc reference
+\RequirePackage[titletoc,page]{appendix} 		% appendix with toc reference
 %---------------------------------------------------------
 
 
@@ -96,7 +100,7 @@
 \RequirePackage[amsthm,amsmath,thmmarks,hyperref]{ntheorem} 	% in conflict with wrapfigure and amsthm
 
 % Theorem environments translated in italian (con numerazione dipendente dalla sezione locale se c'è [section])
-\if@article
+\if@theorem
 	\def\@languagecheck{italian}
 	\ifx\@language\@languagecheck
 		\theoremstyle{plain}
@@ -155,11 +159,19 @@
 
 
 %% Aesthetics
-\RequirePackage{xfrac} 		% \sfrac, in line fractions
-\RequirePackage{bm} 		% \bm{\alpha} bold typeface for greek letters (for vectors use \vb*). In genenal, better bold
-\RequirePackage{cancel} 	% slashed eqs
-\NewDocumentCommand{\eps}{}{\varepsilon} 	% \epsilon variant, shorter and cooler
-\NewDocumentCommand{\id}{}{\mathbb{I}} 	% identity matrix/operator
+\RequirePackage{xfrac} 	% \sfrac, in line fractions
+\RequirePackage{bm} 					% \bm{\alpha} bold typeface for greek letters (for vectors use \vb*). In genenal, better bold
+\RequirePackage{cancel} 				% slashed eqs
+\NewDocumentCommand{\eps}{}{\varepsilon} 		% \epsilon variant, shorter and cooler
+\NewDocumentCommand{\id}{}{\mathbb{I}} 			% identity matrix/operator
+
+% swaps vector notations from physics with the starred (italic) version
+\let\oldvb\vb
+\def\vb{\@ifstar{\oldvb}{\oldvb*}}
+\let\oldva\va
+\def\va{\@ifstar{\oldva}{\oldva*}}
+\let\oldvu\vu
+\def\vu{\@ifstar{\oldvu}{\oldvu*}}
 
 % swaps unequalities with slanted dash ones
 \AtBeginDocument{\RenewDocumentCommand{\leq}{}{\leqslant}}
@@ -169,7 +181,7 @@
 
 % swaps \varphi with \phi
 \expandafter\mathchardef\expandafter\varphi\number\expandafter\phi\expandafter\relax
-\expandafter\mathchardef\expandafter\phi\number\varphi
+\expandafter\mathchardef\expandafter\phi\number\varphi\relax
 
 % closed square root
 \let\oldsqrt\sqrt % it renames \sqrt as \oldsqrt
@@ -185,7 +197,7 @@
 
 %% TEXT, REFERENCE ----------------------------
 
-\RequirePackage{cmap}		% text copy-paste from pdf
+\RequirePackage{cmap}			% text copy-paste from pdf
 
 
 %% Font
@@ -194,17 +206,18 @@
 	\RequirePackage[T1]{fontenc}
 \fi
 
+
 %% Languages
 \RequirePackage[\@language]{babel}
 
 
 %% Quotes
-\RequirePackage{csquotes}	%\enquote{} normal text, \textquote{} text with reference
+\RequirePackage{csquotes}		%\enquote{} normal text, \textquote{} text with reference
 
 
 %% References
-\RequirePackage{hyperref}	% references with hyperlinks
-\hypersetup{ 			% to be configured with prefered colors
+\RequirePackage{hyperref}		% references with hyperlinks
+\hypersetup{ 				% to be configured with prefered colors
     colorlinks=true,
     linkcolor=blue,
     urlcolor=blue,
@@ -224,7 +237,7 @@
 	\Crefname{experiment}{Esperimento}{Esperimenti}
 \fi
 
-\RequirePackage{makeidx}	% analitic index and references to arguments  with \index{topic}, \index{topic!subtipic}
+\RequirePackage{makeidx}		% analitic index and references to arguments  with \index{topic}, \index{topic!subtipic}
 
 
 %% Footnotes
@@ -242,7 +255,7 @@
 
 
 %% Spacing
-\RequirePackage{xspace}	% \xspace manages spacing if put at the end of \newcommand{}
+\RequirePackage{xspace}			% \xspace manages spacing if put at the end of \newcommand{}
 
 \RequirePackage{ellipsis}		% ellipses well done
 
@@ -268,7 +281,7 @@
 \if@sapthesis\else
 	\RequirePackage{graphicx}	% import images
 \fi
-\RequirePackage{subcaption} 	% subfigure environment
+\RequirePackage{subcaption} 		% subfigure environment
 
 
 %% Tables
